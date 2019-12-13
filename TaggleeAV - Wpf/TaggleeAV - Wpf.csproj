@@ -109,7 +109,7 @@
     </ApplicationDefinition>
     <Compile Include="Sites\TestSite.cs" />
     <Compile Include="Sites\Site.cs" />
-    <Compile Include="Sites\SiteSettings.cs" />
+    <Compile Include="Sites\SiteProfile.cs" />
     <Compile Include="StringHelpers.cs" />
     <Compile Include="TagglerFile.cs" />
     <Page Include="MainWindow.xaml">

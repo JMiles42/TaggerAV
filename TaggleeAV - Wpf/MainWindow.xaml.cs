@@ -41,8 +41,14 @@ namespace TagglerAVWpf
 		{
 			OpenFile?.Dispose();
 
-			if(Data.ProcessTasks > 0 || Data.SaveTasks > 0)
-				e.Cancel = true;
+			if((Data.ProcessTasks > 0) || (Data.SaveTasks > 0))
+			{
+				if(MessageBox.Show("Force Close Application?", "This might corrupt files", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+				{
+					e.Cancel = true;
+					_close.Cancel();
+				}
+			}
 			else
 				_close.Cancel();
 		}
@@ -141,7 +147,7 @@ namespace TagglerAVWpf
 			if((fileList == null) || (fileList.Length == 0))
 				return;
 
-			if(FileQue.Count != 0 || OpenFile?._File != null)
+			if((FileQue.Count != 0) || (OpenFile?._File != null))
 			{
 				foreach(var s in fileList)
 					FileQue.Enqueue(s);
@@ -170,9 +176,9 @@ namespace TagglerAVWpf
 				OpenFile = null;
 			}
 
-			if(OpenFile == null || OpenFile._File == null || OpenFile.Tag == null)
+			if((OpenFile == null) || (OpenFile._File == null) || (OpenFile.Tag == null))
 			{
-				tbThumbnail_Url.Text = "ERROR";
+				OnError(fileToOpen);
 
 				if(MoveFilesAfterSave)
 					MoveFile(fileToOpen, "ERROR");
@@ -199,7 +205,7 @@ namespace TagglerAVWpf
 
 		private void CheckForFileInQue()
 		{
-			if(FileQue.Count > 0 || OpenFile?._File != null)
+			if((FileQue.Count > 0) || (OpenFile?._File != null))
 				OpenFileInUi(FileQue.Dequeue());
 		}
 
@@ -219,7 +225,7 @@ namespace TagglerAVWpf
 		{
 			imgThumbnail.Source = null;
 
-			if(TempFile == null || !System.IO.File.Exists(TempFile.FullName))
+			if((TempFile == null) || !System.IO.File.Exists(TempFile.FullName))
 				return;
 
 			var bit = new BitmapImage();
@@ -257,14 +263,12 @@ namespace TagglerAVWpf
 		private static string[] GetFileList(DragEventArgs e)
 		{
 			var fileArray = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-			var filelist = new List<string>();
+			var filelist  = new List<string>();
 
 			foreach(var file in fileArray)
 			{
 				if((System.IO.File.GetAttributes(file) & FileAttributes.Directory) == FileAttributes.Directory)
-				{
 					filelist.AddRange(DirSearch(file));
-				}
 				else
 					filelist.Add(file);
 			}
@@ -272,7 +276,7 @@ namespace TagglerAVWpf
 			return filelist.ToArray();
 		}
 
-		static ICollection<string> DirSearch(string sDir)
+		private static ICollection<string> DirSearch(string sDir)
 		{
 			var list = new List<string>();
 
@@ -305,7 +309,7 @@ namespace TagglerAVWpf
 
 		private void UpdateThumbnail(string url)
 		{
-			if(string.IsNullOrWhiteSpace(url) || url == "LOADED FROM FILE" || url == "N/A")
+			if(string.IsNullOrWhiteSpace(url) || (url == "LOADED FROM FILE") || (url == "N/A"))
 			{
 				if(url != "LOADED FROM FILE")
 					imgThumbnail.Source = null;
@@ -331,6 +335,16 @@ namespace TagglerAVWpf
 			tbThumbnail_Url.Text = "";
 			UpdateUi();
 			CheckForFileInQue();
+		}
+
+		private void DoUnloadAllFiles()
+		{
+			OpenFile             = new TagglerFile();
+			imgThumbnail.Source  = null;
+			TempFile             = null;
+			tbThumbnail_Url.Text = "";
+			FileQue.Clear();
+			UpdateUi();
 		}
 
 		private async void DoSimpleSave(File file)
@@ -369,6 +383,7 @@ namespace TagglerAVWpf
 
 			if(!currentfile.Exists)
 				return;
+
 			try
 			{
 				currentfile.MoveTo(newFile);
@@ -381,11 +396,23 @@ namespace TagglerAVWpf
 			Site.Open();
 		}
 
+		private void OnError()
+		{
+			tbThumbnail_Url.Text = "ERROR";
+			MessageBox.Show("File Error", "This file failed to load.", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
+		private void OnError(string name)
+		{
+			tbThumbnail_Url.Text = "ERROR";
+			MessageBox.Show("File Error", $"This file failed to load {name}", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
 		private async void PasteHtml(object sender, RoutedEventArgs e)
 		{
 			if(OpenFile._File == null)
 			{
-				tbThumbnail_Url.Text = "ERROR";
+				OnError();
 
 				return;
 			}
@@ -399,7 +426,6 @@ namespace TagglerAVWpf
 		private void UpdateFileFromSite(TagglerFile openFile, Site site)
 		{
 			openFile.Tag.JoinedGenres = openFile.Tag.JoinedGenres.Trim().Trim(';');
-
 			var genres = new List<string>(openFile.Tag.Genres);
 			openFile.Tag.JoinedGenres = site.Genre;
 
@@ -455,9 +481,7 @@ namespace TagglerAVWpf
 				}
 			}
 			else
-			{
 				TempFile = null;
-			}
 		}
 
 		private void OpenThumbnail(object sender, RoutedEventArgs e)
@@ -467,5 +491,6 @@ namespace TagglerAVWpf
 		}
 
 		private void UnloadFile(object sender, RoutedEventArgs e) => DoUnloadFile();
+		private void UnloadAllFiles(object sender, RoutedEventArgs e) => DoUnloadAllFiles();
 	}
 }

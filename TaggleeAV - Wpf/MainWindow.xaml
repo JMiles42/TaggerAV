@@ -94,6 +94,7 @@
 				<Button Grid.Column="2" Grid.Row="0" Content="Open Thumbnail" Click="OpenThumbnail" />
 				<Button Grid.Column="2" Grid.Row="1" Content="Refresh Thumbnail" Click="OnRefreshThumbnail" />
 				<Button Grid.Column="3" Grid.Row="0" Content="Unload File" Click="UnloadFile" />
+				<Button Grid.Column="3" Grid.Row="1" Content="Unload All File" Click="UnloadAllFiles" />
 			</Grid>
 		</Grid>
 		<GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />

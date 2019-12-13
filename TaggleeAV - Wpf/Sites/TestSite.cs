@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HtmlAgilityPack;
 using TagglerAVWpf;
+using TagglerAVWpf.Sites;
 
 namespace TaggerAV.Sites
 {
@@ -73,7 +74,7 @@ namespace TaggerAV.Sites
 
 		private const string CUSTOM_404_ERROR = "404ERROR";
 
-		private string GetRealURL(HtmlDocument doc)
+		private string GetRealURL(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var node = doc.DocumentNode.SelectSingleNode("//div[@class='video']");
 
@@ -83,7 +84,7 @@ namespace TaggerAV.Sites
 			return node.GetAttributeValue("id", CUSTOM_404_ERROR);
 		}
 
-		private static string FindTitle(HtmlDocument doc)
+		private static string FindTitle(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var val = doc.DocumentNode.SelectSingleNode("//div[@id='video_title']/h3[@class='post-title text']/a[@href]");
 
@@ -93,7 +94,7 @@ namespace TaggerAV.Sites
 			return val.InnerText;
 		}
 
-		private static string FindYear(HtmlDocument doc)
+		private static string FindYear(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path = "//div[@id='video_date']/table/tr/td[2]";
 			var node = doc.DocumentNode.SelectSingleNode(path);
@@ -104,7 +105,7 @@ namespace TaggerAV.Sites
 			return node.InnerText.FixWhitespace();
 		}
 
-		private static string FindPublisherStudio(HtmlDocument doc)
+		private static string FindPublisherStudio(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path = "//div[@id='video_maker']/table/tr/td[2]/span/a";
 			var node = doc.DocumentNode.SelectSingleNode(path);
@@ -115,7 +116,7 @@ namespace TaggerAV.Sites
 			return node.InnerText.FixWhitespace();
 		}
 
-		private static string FindLabel(HtmlDocument doc)
+		private static string FindLabel(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path = "//div[@id='video_label']/table/tr/td[2]/span/a";
 			var node = doc.DocumentNode.SelectSingleNode(path);
@@ -126,7 +127,7 @@ namespace TaggerAV.Sites
 			return node.InnerText.FixWhitespace();
 		}
 
-		private static string FindDirector(HtmlDocument doc)
+		private static string FindDirector(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path = "//div[@id='video_director']/table/tr/td[2]/span/a";
 			var node = doc.DocumentNode.SelectSingleNode(path);
@@ -137,7 +138,7 @@ namespace TaggerAV.Sites
 			return node.InnerText.FixWhitespace();
 		}
 
-		private static string FindGenre(HtmlDocument doc)
+		private static string FindGenre(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path    = "//div[@id='video_genres']//span[@id]";
 			var nodes   = doc.DocumentNode.SelectNodes(path);
@@ -146,7 +147,7 @@ namespace TaggerAV.Sites
 			return NodeListToString(nodes, strList);
 		}
 
-		private static string FindArtistActor(HtmlDocument doc)
+		private static string FindArtistActor(HtmlDocument doc, SiteProfile.NodePath setting)
 		{
 			var path    = "//div[@id='video_cast']//span[@class='star']/a";
 			var nodes   = doc.DocumentNode.SelectNodes(path);
@@ -227,10 +228,8 @@ namespace TaggerAV.Sites
 			if(str.Contains("{0}"))
 				return string.Format(str, id);
 
-			return "http://www.testwebsite.com/en/search.php?keyword="+ id;
+			return "http://www.javlibrary.com/en/vl_searchbyid.php?keyword="+ id;
 		}
-
-		public override bool   Is404Error()        => is404;
 	}
 
 	static class extn
