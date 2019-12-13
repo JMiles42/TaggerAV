@@ -1,0 +1,140 @@
+<metro:MetroWindow x:Name="metroWindow" x:Class="TagglerAVWpf.MainWindow"
+				   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+				   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+				   xmlns:fa="http://schemas.fontawesome.io/icons/"
+				   GlowBrush="{DynamicResource AccentColorBrush}"
+				   BorderThickness="1"
+				   mc:Ignorable="d"
+				   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+				   Background="{DynamicResource MaterialDesignPaper}"
+				   TextElement.FontWeight="Medium"
+				   TextElement.FontSize="14"
+				   FontFamily="pack://application:,,,/MaterialDesignThemes.MahApps.Wpf;component/Resources/Roboto/#Roboto"
+				   Title="TaggleeAV - WPF" Width="1280" Height="720" ResizeMode="CanResizeWithGrip" SaveWindowPosition="True">
+
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/purple.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="3*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="4*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="1*" />
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="3*" />
+			</Grid.RowDefinitions>
+			<GridSplitter Grid.Column="1" Grid.Row="00" Grid.RowSpan="8" Width="2" ResizeBehavior="PreviousAndNext" />
+			<GridSplitter Grid.Column="0" Grid.Row="01" Grid.ColumnSpan="3" Height="10" ResizeBehavior="PreviousAndNext" Background="#1FFD0000" />
+			<Label Grid.Column="0" Grid.Row="00" Content="Title" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="01" Content="Year" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="02" Content="Publisher/Studio" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="03" Content="Genre" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="04" Content="Artist/Actor" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="05" Content="Thumbnail Url" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="06" Content="Filepath" HorizontalAlignment="Center" VerticalAlignment="Center" />
+			<Label Grid.Column="0" Grid.Row="07" Content="Comment" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+			<TextBox Grid.Column="2" Grid.Row="00" Name="tbTitle" Text="{Binding OpenFile.Tag.Title, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="01" Name="tbYear" Text="{Binding OpenFile.Tag.Year, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="02" Name="tbPublisher_Studio" Text="{Binding OpenFile.Tag.JoinedAlbumArtists, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="03" Name="tbGenre" Text="{Binding OpenFile.Tag.JoinedGenres, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="04" Name="tbArtist_Actor" Text="{Binding OpenFile.Tag.JoinedPerformers, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="05" Name="tbThumbnail_Url" Text="N/A" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="06" Name="tbFilepath" Text="{Binding OpenFile.Name, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+			<TextBox Grid.Column="2" Grid.Row="07" Name="tbComment" Text="{Binding OpenFile.Tag.Comment, ElementName=metroWindow}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="WrapWithOverflow" />
+
+			<Grid Grid.Column="0" Grid.Row="08" Grid.ColumnSpan="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="2*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="2*" />
+					<RowDefinition Height="2*" />
+				</Grid.RowDefinitions>
+				<Button Grid.Column="0" Grid.Row="0" Content="Refresh From File" />
+				<Button Grid.Column="1" Grid.Row="0" Content="Open Test Website" Click="OpenSiteBtn_Click" Name="OpenSiteBtn" />
+				<Button Grid.Column="2" Grid.Row="0" IsEnabled="False" />
+				<Button Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Content="Paste HTML Code" Click="PasteHtml"/>
+				<Button Grid.Column="5" Grid.Row="0" Grid.RowSpan="2" Content="Save" Click="OnSaveClicked" />
+
+				<CheckBox Grid.Column="0" Grid.Row="1" Content="Auto Open" Margin="5" IsChecked="True" Name="AutoOpen" Background="#FF999999"/>
+				<CheckBox Grid.Column="1" Grid.Row="1" Content="MoveAfterSave" Margin="5" IsChecked="{Binding MoveFilesAfterSave, ElementName=metroWindow}" Name="MoveAfterSave" Background="#FF999999" />
+				<Button Grid.Column="2" Grid.Row="0" Content="Open Thumbnail" Click="OpenThumbnail" />
+				<Button Grid.Column="2" Grid.Row="1" Content="Refresh Thumbnail" Click="OnRefreshThumbnail" />
+				<Button Grid.Column="3" Grid.Row="0" Content="Unload File" Click="UnloadFile" />
+			</Grid>
+		</Grid>
+		<GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
+		<Grid Grid.Column="2">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="6*" />
+				<RowDefinition Height="1*" />
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="10*" />
+					<RowDefinition Height="01*" />
+				</Grid.RowDefinitions>
+				<Image Name="imgThumbnail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"  Grid.ColumnSpan="2" />
+
+				<Label Grid.Row="1" Grid.Column="0" x:Name="lblSaving" Content="Saving Tasks Remaining: 0" VerticalAlignment="Center" Margin="5" />
+				<fa:ImageAwesome Grid.Row="1" Grid.Column="0" x:Name="SavingSpinner" Icon="Spinner" Spin="True" SpinDuration="4" Visibility="Hidden" Margin="248,0,0,0" />
+				<Label Grid.Row="1" Grid.Column="1" x:Name="lblProcessing" Content="Processing Tasks Remaining: 0" VerticalAlignment="Center" Margin="5" />
+				<fa:ImageAwesome Grid.Row="1" Grid.Column="1" x:Name="ProcessingSpinner" Icon="Spinner" Spin="True" SpinDuration="4" Visibility="Hidden" Margin="248,0,0,0" />
+			</Grid>
+
+			<Grid Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<Border Margin="5" Name="dragOpenFile" Background="#FF272727" BorderBrush="#FF1B1B1B" BorderThickness="4"
+						AllowDrop="True" Drop="OnDropOpen">
+					<Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Drag File Here To Open" />
+				</Border>
+				<Border Margin="5" Name="dragProcessFile" Grid.Column="1" Background="#FF272727" BorderBrush="#FF1B1B1B" BorderThickness="4"
+						AllowDrop="True" Drop="OnDropProcess" >
+					<Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Drag File/Files Here To Process" />
+				</Border>
+			</Grid>
+		</Grid>
+
+	</Grid>
+</metro:MetroWindow>
